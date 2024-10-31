@@ -16,6 +16,7 @@ let createGrid = function(width, mineRatio) {
   let flagNumber = document.createElement("p");
   flagNumber.textContent = ": " + String(totalMines);
   flagNumber.style.margin = "0";
+  flagNumber.classList.add("flag-number")
   gameContainerHeader.appendChild(flagNumber);
 
   //Create the game board and grid, then add the grid to the game board, THEN add the game board to the parent game board container
@@ -40,6 +41,7 @@ let createGrid = function(width, mineRatio) {
 let assignMines = function(width, mineRatio){
   let totalSquares = width**2;
   let totalMines = totalSquares * mineRatio;
+
   //Create an array to store all the values of cells
   let mineLocations = [];
   for (i=0; i < totalSquares; i++) {
@@ -86,14 +88,50 @@ let assignMines = function(width, mineRatio){
     }
     return location;
   })
-
   return allLocations;
 }
 
-//Start a game before button functionality added, delete later
+//start with an easy grid (gameBoardArray will store the array containing the game board)
 createGrid(EASY_GRID, MINE_RATIO);
-let gameBoard = assignMines(EASY_GRID, MINE_RATIO);
-console.log(gameBoard);
+let gameBoardArray = assignMines(EASY_GRID, MINE_RATIO);
+
+//function that clears everything to be used in event listeners
+clearBoard = function() {
+  let flagNumber = document.querySelector(".flag-number");
+  gameContainerHeader.removeChild(flagNumber);
+  let gameBoard = document.querySelector(".game-board");
+  gameBoardContainer.removeChild(gameBoard);
+}
+
+//Add functionality to buttons
+easyButton = document.querySelector(".easy-button");
+mediumButton = document.querySelector(".medium-button");
+hardButton = document.querySelector(".hard-button");
+
+
+easyButton.addEventListener("click", () => {
+  clearBoard();
+  createGrid(EASY_GRID, MINE_RATIO);
+  gameBoardArray = assignMines(EASY_GRID, MINE_RATIO);
+})
+
+mediumButton.addEventListener("click", () => {
+  clearBoard();
+  createGrid(MEDIUM_GRID, MINE_RATIO);
+  gameBoardArray = assignMines(MEDIUM_GRID, MINE_RATIO);
+})
+
+hardButton.addEventListener("click", () => {
+  clearBoard();
+  createGrid(HARD_GRID, MINE_RATIO);
+  gameBoardArray = assignMines(HARD_GRID, MINE_RATIO);
+})
+
+
+
+
+
+
 
 
 
