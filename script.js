@@ -34,7 +34,12 @@ let createGrid = function(width, mineRatio) {
   };
   
   gameBoardContainer.appendChild(gameBoard);
+}
 
+
+let assignMines = function(width, mineRatio){
+  let totalSquares = width**2;
+  let totalMines = totalSquares * mineRatio;
   //Create an array to store all the values of cells
   let mineLocations = [];
   for (i=0; i < totalSquares; i++) {
@@ -50,8 +55,6 @@ let createGrid = function(width, mineRatio) {
       minesRemaining -= 1;
     }
   }
-  console.log(mineLocations);
-
   
   //Assign numbers to new array, allLocations, based on number of mines around them
   let allLocations = mineLocations.map((location, i) => {
@@ -84,10 +87,13 @@ let createGrid = function(width, mineRatio) {
     return location;
   })
 
-  console.log(allLocations);
+  return allLocations;
 }
 
-
-
-
+//Start a game before button functionality added, delete later
 createGrid(EASY_GRID, MINE_RATIO);
+let gameBoard = assignMines(EASY_GRID, MINE_RATIO);
+console.log(gameBoard);
+
+
+
