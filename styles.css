@@ -29,6 +29,24 @@ li button {
   font-size: 20px;
 }
 
-span.flag{
-  color: red;  
+.game-board-container {
+  padding: 10px;
+  border: solid;
+  display: flex;
+  justify-content: center;
+}
+
+.game-board {
+  border: solid;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell {
+  border: solid;
+  box-sizing: border-box;
+}
+
+.unclicked {
+  background-color: darkgrey;
 }
