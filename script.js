@@ -10,10 +10,11 @@ let gameContainerHeader = document.querySelector(".game-container-header");
 
 let createGrid = function(width, mineRatio) {
   let totalSquares = width**2;
-  console.log(totalSquares);
+  let totalMines = totalSquares * mineRatio
+  
   //Add number of flags left to header
   let flagNumber = document.createElement("p");
-  flagNumber.textContent = ": " + String(totalSquares * mineRatio);
+  flagNumber.textContent = ": " + String(totalMines);
   flagNumber.style.margin = "0";
   gameContainerHeader.appendChild(flagNumber);
 
@@ -30,13 +31,63 @@ let createGrid = function(width, mineRatio) {
     cell.classList.add("unclicked", "cell");
     cell.setAttribute("id", i);
     gameBoard.appendChild(cell);
-  }
+  };
   
   gameBoardContainer.appendChild(gameBoard);
 
-  //Add the correct number of mines
-  
+  //Create an array to store all the values of cells
+  let mineLocations = [];
+  for (i=0; i < totalSquares; i++) {
+    mineLocations.push(0);
+  }
 
+  //Add mines to the array
+  let minesRemaining = totalMines;
+  while (minesRemaining > 0) {
+    let mineLocation = Math.floor(Math.random() * totalSquares);
+    if (mineLocations[mineLocation] != "x") {
+      mineLocations[mineLocation] = "x";
+      minesRemaining -= 1;
+    }
+  }
+  console.log(mineLocations);
+
+  
+  //Assign numbers to new array, allLocations, based on number of mines around them
+  let allLocations = mineLocations.map((location, i) => {
+    if (location === 0) {
+      if (mineLocations[i-(width+1)] === "x" && i % width != 0) {
+        location += 1;
+      }
+      if (mineLocations[i-(width)] === "x") {
+        location += 1;
+      }
+      if (mineLocations[i-(width-1)] === "x" && i % width != width - 1) {
+        location +=1;
+      }
+      if (mineLocations[i-1] === "x" && i % width != 0) {
+        location += 1;
+      }
+      if (mineLocations[i+1] === "x" && i % width != width - 1) {
+        location += 1;
+      }
+      if (mineLocations[i+(width-1)] === "x" && i % width != 0) {
+        location += 1;
+      }
+      if (mineLocations[i+width] === "x") {
+        location += 1
+      }
+      if (mineLocations [i+(width+1)] === "x" && i % width != width - 1) {
+        location += 1;
+      }
+    }
+    return location;
+  })
+
+  console.log(allLocations);
 }
+
+
+
 
 createGrid(EASY_GRID, MINE_RATIO);
