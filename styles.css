@@ -45,8 +45,17 @@ li button {
 .cell {
   border: solid;
   box-sizing: border-box;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .unclicked {
   background-color: darkgrey;
+}
+
+.cell-flag {
+  height: 20px;
+  width: 20px;
 }

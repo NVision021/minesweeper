@@ -35,7 +35,7 @@ let createGrid = function(width, mineRatio) {
   };
   
   gameBoardContainer.appendChild(gameBoard);
-}
+};
 
 
 let assignMines = function(width, mineRatio){
@@ -46,7 +46,7 @@ let assignMines = function(width, mineRatio){
   let mineLocations = [];
   for (i=0; i < totalSquares; i++) {
     mineLocations.push(0);
-  }
+  };
 
   //Add mines to the array
   let minesRemaining = totalMines;
@@ -55,45 +55,85 @@ let assignMines = function(width, mineRatio){
     if (mineLocations[mineLocation] != "x") {
       mineLocations[mineLocation] = "x";
       minesRemaining -= 1;
-    }
-  }
+    };
+  };
   
   //Assign numbers to new array, allLocations, based on number of mines around them
   let allLocations = mineLocations.map((location, i) => {
     if (location === 0) {
       if (mineLocations[i-(width+1)] === "x" && i % width != 0) {
         location += 1;
-      }
+      };
       if (mineLocations[i-(width)] === "x") {
         location += 1;
-      }
+      };
       if (mineLocations[i-(width-1)] === "x" && i % width != width - 1) {
         location +=1;
-      }
+      };
       if (mineLocations[i-1] === "x" && i % width != 0) {
         location += 1;
-      }
+      };
       if (mineLocations[i+1] === "x" && i % width != width - 1) {
         location += 1;
-      }
+      };
       if (mineLocations[i+(width-1)] === "x" && i % width != 0) {
         location += 1;
-      }
+      };
       if (mineLocations[i+width] === "x") {
         location += 1
-      }
+      };
       if (mineLocations [i+(width+1)] === "x" && i % width != width - 1) {
         location += 1;
-      }
+      };
     }
     return location;
   })
   return allLocations;
+};
+
+let handleClicks = function() {
+  let cells = document.querySelectorAll(".cell");
+
+  //Stop contextmenu openning on right click on game board and handle right clicks on each cell
+  cells.forEach(cell=>cell.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    flagNumber = document.querySelector(".flag-number");
+    if (cell.classList.contains("unclicked")) {
+      let flag = document.createElement("img"); 
+      flag.classList.add("cell-flag");
+      flag.setAttribute("src", "./Images/flag");
+      cell.appendChild(flag);
+
+      flagNumber.textContent = ": " + String(Number(flagNumber.textContent.slice(2)) - 1);
+
+      cell.classList.remove("unclicked");
+      cell.classList.add("flagged");
+
+    } else if (cell.classList.contains("flagged")) {
+      cellFlag = cell.querySelector(".cell-flag");
+      cell.removeChild(cellFlag);
+
+      flagNumber.textContent = ": " + String(Number(flagNumber.textContent.slice(2)) + 1);
+
+      cell.classList.remove("flagged");
+      cell.classList.add("unclicked");
+
+    }
+  }));
+
+  //handles left click events
+  cells.forEach(cell => cell.addEventListener("click", (e) => {
+    console.log(e.button);
+    if (e.button == 0) {
+
+    }
+  }))
 }
 
 //start with an easy grid (gameBoardArray will store the array containing the game board)
 createGrid(EASY_GRID, MINE_RATIO);
 let gameBoardArray = assignMines(EASY_GRID, MINE_RATIO);
+handleClicks();
 
 //function that clears everything to be used in event listeners
 clearBoard = function() {
@@ -101,7 +141,7 @@ clearBoard = function() {
   gameContainerHeader.removeChild(flagNumber);
   let gameBoard = document.querySelector(".game-board");
   gameBoardContainer.removeChild(gameBoard);
-}
+};
 
 //Add functionality to buttons
 easyButton = document.querySelector(".easy-button");
@@ -113,23 +153,23 @@ easyButton.addEventListener("click", () => {
   clearBoard();
   createGrid(EASY_GRID, MINE_RATIO);
   gameBoardArray = assignMines(EASY_GRID, MINE_RATIO);
-})
+  handleClicks();
+});
 
 mediumButton.addEventListener("click", () => {
   clearBoard();
   createGrid(MEDIUM_GRID, MINE_RATIO);
   gameBoardArray = assignMines(MEDIUM_GRID, MINE_RATIO);
-})
+  handleClicks();
+
+});
 
 hardButton.addEventListener("click", () => {
   clearBoard();
   createGrid(HARD_GRID, MINE_RATIO);
   gameBoardArray = assignMines(HARD_GRID, MINE_RATIO);
-})
-
-
-
-
+  handleClicks();
+});
 
 
 
