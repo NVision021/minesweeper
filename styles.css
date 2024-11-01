@@ -51,8 +51,21 @@ li button {
   align-items: center;
 }
 
+.score-container {
+  height: 50px;
+  font-size: 30px;
+  border: solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .unclicked {
   background-color: darkgrey;
+}
+
+.flagged {
+  background-color: darkgray;
 }
 
 .cell-flag {
