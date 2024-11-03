@@ -133,7 +133,6 @@ let handleClicks = function() {
   cells.forEach(cell => cell.addEventListener("click", () => {
     let cellContents = gameBoardArray[cell.getAttribute("id")];
     if (cell.classList.contains("unclicked")) {
-      console.log(cellContents);
       if (cellContents > 0) {
         correctCounter += 1;
         cell.textContent = cellContents;
