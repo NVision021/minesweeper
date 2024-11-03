@@ -41,10 +41,10 @@ let createGrid = function(width, mineRatio) {
     cell.classList.add("unclicked", "cell");
     cell.setAttribute("id", i);
     gameBoard.appendChild(cell);
-  };
+  }
   
   gameBoardContainer.appendChild(gameBoard);
-};
+}
 
 
 let assignMines = function(width, mineRatio){
@@ -55,7 +55,7 @@ let assignMines = function(width, mineRatio){
   let mineLocations = [];
   for (i=0; i < totalSquares; i++) {
     mineLocations.push(0);
-  };
+  }
 
   //Add mines to the array
   let minesRemaining = totalMines;
@@ -64,41 +64,41 @@ let assignMines = function(width, mineRatio){
     if (mineLocations[mineLocation] != "x") {
       mineLocations[mineLocation] = "x";
       minesRemaining -= 1;
-    };
-  };
+    }
+  }
   
   //Assign numbers to new array, allLocations, based on number of mines around them
   let allLocations = mineLocations.map((location, i) => {
     if (location === 0) {
       if (mineLocations[i-(width+1)] === "x" && i % width != 0) {
         location += 1;
-      };
+      }
       if (mineLocations[i-(width)] === "x") {
         location += 1;
-      };
+      }
       if (mineLocations[i-(width-1)] === "x" && i % width != width - 1) {
         location +=1;
-      };
+      }
       if (mineLocations[i-1] === "x" && i % width != 0) {
         location += 1;
-      };
+      }
       if (mineLocations[i+1] === "x" && i % width != width - 1) {
         location += 1;
-      };
+      }
       if (mineLocations[i+(width-1)] === "x" && i % width != 0) {
         location += 1;
-      };
+      }
       if (mineLocations[i+width] === "x") {
         location += 1
-      };
+      }
       if (mineLocations [i+(width+1)] === "x" && i % width != width - 1) {
         location += 1;
-      };
+      }
     }
     return location;
   })
   return allLocations;
-};
+}
 
 let handleClicks = function() {
   let cells = document.querySelectorAll(".cell");
@@ -141,13 +141,13 @@ let handleClicks = function() {
 
         cell.classList.remove("unclicked");
         cell.classList.add("clicked");
-      };
+      }
       if (cellContents == 0) {
         correctCounter += 1;
         
         cell.classList.remove("unclicked");
         cell.classList.add("clicked");
-      }; 
+      } 
       if (cellContents == "x" && !cell.classList.contains("flagged")) {
         scoreContainer.textContent = "You Lose!";
         //the clicked bomb cell
@@ -182,14 +182,14 @@ let handleClicks = function() {
         cell.textContent = gameBoardArray[cell.getAttribute("id")];
         if (cell.textContent === "x") {
           cell.style.color = "red";
-        };
+        }
         if (cell.classList.contains("unclicked") || cell.classList.contains("flagged")) {
           cell.classList.remove("unclicked");
           cell.classList.remove("flagged");
           cell.classList.add("clicked");
-        };
+        }
       })  
-    };
+    }
     }
   }))
 }
@@ -206,7 +206,7 @@ clearBoard = function() {
   let gameBoard = document.querySelector(".game-board");
   gameBoardContainer.removeChild(gameBoard);
   correctCounter = 0;
-};
+}
 
 //Add functionality to buttons
 easyButton = document.querySelector(".easy-button");
