@@ -16,7 +16,7 @@ let totalCorrectRequired = null;
 
 let createGrid = function(width, mineRatio) {
   let totalSquares = width**2;
-  let totalMines = totalSquares * mineRatio
+  let totalMines = totalSquares * mineRatio;
 
   //Set totalCorrectRequired
   totalCorrectRequired = totalSquares - totalMines;
@@ -45,7 +45,6 @@ let createGrid = function(width, mineRatio) {
   
   gameBoardContainer.appendChild(gameBoard);
 }
-
 
 let assignMines = function(width, mineRatio){
   let totalSquares = width**2;
@@ -238,8 +237,3 @@ hardButton.addEventListener("click", () => {
   gameBoardArray = assignMines(HARD_GRID, MINE_RATIO);
   handleClicks();
 });
-
-
-
-
-
