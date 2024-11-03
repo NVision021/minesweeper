@@ -179,15 +179,18 @@ let handleClicks = function() {
     if (correctCounter == totalCorrectRequired) {
       scoreContainer.textContent = "You Win!";
       cells.forEach(cell => {
-        cell.textContent = gameBoardArray[cell.getAttribute("id")];
-        if (cell.textContent === "x") {
-          cell.style.color = "red";
-        }
-        if (cell.classList.contains("unclicked") || cell.classList.contains("flagged")) {
+        //All mine cells should get flags 
+        if (gameBoardArray[cell.getAttribute("id")] === "x") {
+          if (!cell.classList.contains("flagged")) {
+            let flag = document.createElement("img"); 
+            flag.classList.add("cell-flag");
+            flag.setAttribute("src", "./Images/flag");
+            cell.appendChild(flag);
+            cell.classList.remove("flagged");
+          }          
           cell.classList.remove("unclicked");
-          cell.classList.remove("flagged");
-          cell.classList.add("clicked");
-        }
+          cell.classList.add("flagged-correct-finish");
+        }         
       })  
     }
     }
