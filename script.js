@@ -176,6 +176,8 @@ let handleClicks = function() {
       }
     if (correctCounter == totalCorrectRequired) {
       scoreContainer.textContent = "You Win!";
+      flagNumber = document.querySelector(".flag-number");
+      flagNumber.textContent = ": 0";
       cells.forEach(cell => {
         //All mine cells should get flags 
         if (gameBoardArray[cell.getAttribute("id")] === "x") {
