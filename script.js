@@ -6,11 +6,20 @@ GRID_SIZE = 40;
 
 let gameBoardContainer = document.querySelector(".game-board-container");
 let gameContainerHeader = document.querySelector(".game-container-header");
+let scoreContainer = document.querySelector(".score-container");
+
+//A counter for the number of mines required to win
+let correctCounter = 0;
+let totalCorrectRequired = null;
+
 
 
 let createGrid = function(width, mineRatio) {
   let totalSquares = width**2;
   let totalMines = totalSquares * mineRatio
+
+  //Set totalCorrectRequired
+  totalCorrectRequired = totalSquares - totalMines;
   
   //Add number of flags left to header
   let flagNumber = document.createElement("p");
@@ -122,10 +131,67 @@ let handleClicks = function() {
   }));
 
   //handles left click events
-  cells.forEach(cell => cell.addEventListener("click", (e) => {
-    console.log(e.button);
-    if (e.button == 0) {
+  cells.forEach(cell => cell.addEventListener("click", () => {
+    let cellContents = gameBoardArray[cell.getAttribute("id")];
+    if (cell.classList.contains("unclicked")) {
+      console.log(cellContents);
+      if (cellContents > 0) {
+        correctCounter += 1;
+        cell.textContent = cellContents;
 
+        cell.classList.remove("unclicked");
+        cell.classList.add("clicked");
+      };
+      if (cellContents == 0) {
+        //add ability to check for nearby cells for other blank cells
+        correctCounter += 1;
+        
+        cell.classList.remove("unclicked");
+        cell.classList.add("clicked");
+      }; 
+      if (cellContents == "x") {
+        scoreContainer.textContent = "You Lose!";
+        //the clicked bomb cell
+        cell.classList.remove("unclicked");
+        cell.classList.add("exploded");
+        cell.textContent = "x";
+
+        cells.forEach(cell => {
+
+          //Correctly flagged cells:
+          if (cell.classList.contains("flagged") && gameBoardArray[cell.getAttribute("id")] === "x") {
+            cell.classList.remove("flagged");
+            cell.classList.add("flagged-correct-finish");
+            //Incorrectly flagged cells:
+          } else if (cell.classList.contains("flagged") && gameBoardArray[cell.getAttribute("id")] !== "x"){
+            cell.classList.remove("flagged");
+            cell.classList.add("flagged-incorrect-finish");
+            //all undiscovered mines:
+          } else if (!cell.classList.contains("exploded") && gameBoardArray[cell.getAttribute("id")] === "x") {
+            cell.classList.remove("unclicked");
+            cell.classList.add("clicked");
+            cell.style.color = "red";
+            cell.textContent = "x";
+          } else if (cell.classList.contains("unclicked")) {
+            cell.classList.remove("unclicked");
+            cell.classList.add("unclicked-finish");
+          }       
+        })
+      }
+    if (correctCounter == totalCorrectRequired) {
+      scoreContainer.textContent = "You Win!";
+      cells.forEach(cell => {
+        cell.textContent = gameBoardArray[cell.getAttribute("id")];
+        if (cell.textContent === "x") {
+          cell.style.color = "red";
+        };
+        if (cell.classList.contains("unclicked") || cell.classList.contains("flagged")) {
+          cell.classList.remove("unclicked");
+          cell.classList.remove("flagged");
+          cell.classList.add("clicked");
+        };
+      })  
+    };
     }
   }))
 }
@@ -141,6 +207,7 @@ clearBoard = function() {
   gameContainerHeader.removeChild(flagNumber);
   let gameBoard = document.querySelector(".game-board");
   gameBoardContainer.removeChild(gameBoard);
+  correctCounter = 0;
 };
 
 //Add functionality to buttons
