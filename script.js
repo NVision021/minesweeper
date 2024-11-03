@@ -1,7 +1,7 @@
 EASY_GRID = 10;
-MEDIUM_GRID = 15;
-HARD_GRID = 20;
-MINE_RATIO = 0.2;
+MEDIUM_GRID = 20;
+HARD_GRID = 30;
+MINE_RATIO = 0.1;
 GRID_SIZE = 40;
 
 let gameBoardContainer = document.querySelector(".game-board-container");
