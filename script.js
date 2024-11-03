@@ -143,13 +143,12 @@ let handleClicks = function() {
         cell.classList.add("clicked");
       };
       if (cellContents == 0) {
-        //add ability to check for nearby cells for other blank cells
         correctCounter += 1;
         
         cell.classList.remove("unclicked");
         cell.classList.add("clicked");
       }; 
-      if (cellContents == "x") {
+      if (cellContents == "x" && !cell.classList.contains("flagged")) {
         scoreContainer.textContent = "You Lose!";
         //the clicked bomb cell
         cell.classList.remove("unclicked");
@@ -157,7 +156,6 @@ let handleClicks = function() {
         cell.textContent = "x";
 
         cells.forEach(cell => {
-
           //Correctly flagged cells:
           if (cell.classList.contains("flagged") && gameBoardArray[cell.getAttribute("id")] === "x") {
             cell.classList.remove("flagged");
