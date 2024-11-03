@@ -20,6 +20,9 @@ let createGrid = function(width, mineRatio) {
 
   //Set totalCorrectRequired
   totalCorrectRequired = totalSquares - totalMines;
+
+  //Reset you win or you lose
+  scoreContainer.textContent = "";
   
   //Add number of flags left to header
   let flagNumber = document.createElement("p");
